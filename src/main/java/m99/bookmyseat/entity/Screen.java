@@ -32,7 +32,7 @@ public class Screen {
 	private List<Seat> seats;
 
 	@OneToMany(mappedBy = "screen")
-	private List<Show> shows;
+	private List<Showcase> showcases;
 
 	@ManyToOne
 	private Theater theater;

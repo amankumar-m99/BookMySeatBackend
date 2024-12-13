@@ -30,7 +30,7 @@ public class Ticket {
 	private Long id;
 
 	@ManyToOne
-	private Show show;
+	private Showcase showcase;
 
 	@OneToMany(mappedBy = "ticket")
 	private List<Seat> seats;

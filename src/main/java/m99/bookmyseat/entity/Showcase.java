@@ -23,7 +23,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class Show {
+public class Showcase {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class Show {
 	@ManyToOne
 	private Screen screen;
 
-	@OneToMany(mappedBy = "show")
+	@OneToMany(mappedBy = "showcase")
 	private List<Ticket> tickets;
 
 	@Temporal(TemporalType.DATE)

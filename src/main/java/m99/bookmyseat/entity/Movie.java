@@ -43,7 +43,7 @@ public class Movie {
 	private String posterUrl;
 
 	@OneToMany(mappedBy = "movie")
-	private List<Show> shows;
+	private List<Showcase> showcases;
 
 	@Temporal(TemporalType.DATE)
 	private Date releaseDate;

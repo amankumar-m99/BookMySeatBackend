@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -38,6 +39,9 @@ public class Theater {
 
 	@OneToMany(mappedBy = "theater")
 	private List<Screen> screens;
+
+	@ManyToMany
+	private List<Movie> movies;
 
 	@Temporal(TemporalType.DATE)
 	private Date createdAt;

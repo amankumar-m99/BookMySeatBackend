@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import m99.bookmyseat.customexception.BadCredentialsException;
 import m99.bookmyseat.entity.User;
 import m99.bookmyseat.model.LoginModel;
 import m99.bookmyseat.model.SignUpModel;
 import m99.bookmyseat.service.UserService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("user")
 public class UserController {
 
@@ -28,9 +31,12 @@ public class UserController {
 	public ResponseEntity<User> loginUser(@RequestBody LoginModel model) {
 		try {
 			return new ResponseEntity<>(userService.login(model), HttpStatus.OK);
+		}catch (BadCredentialsException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@PostMapping("/signup")
@@ -38,7 +44,7 @@ public class UserController {
 		try {
 			return new ResponseEntity<>(userService.addUser(model), HttpStatus.CREATED);
 		}catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
@@ -48,6 +54,7 @@ public class UserController {
 		try {
 			return new ResponseEntity<>(userService.getUserByName(name), HttpStatus.OK);
 		}catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}

@@ -1,10 +1,12 @@
 package m99.bookmyseat.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import m99.bookmyseat.customexception.BadCredentialsException;
 import m99.bookmyseat.customexception.user.UserNotFoundException;
 import m99.bookmyseat.entity.User;
 import m99.bookmyseat.entity.UserPersonalDetails;
@@ -25,9 +27,9 @@ public class UserService {
 	public User login(LoginModel loginModel) {
 		String username = loginModel.getUsername();
 		String password = loginModel.getPassword();
-		User user = userRepository.findByUsername(username);
+		User user = getUserByName(username);
 		if(!user.getPassword().equals(password)) {
-			throw new RuntimeException("Bad credentials");
+			throw new BadCredentialsException("Bad credentials");
 		}
 		return user;
 	}
@@ -38,6 +40,7 @@ public class UserService {
 				.username(model.getUsername())
 				.password(model.getPassword())
 				.personalDetails(createUserPersonalDetails(model))
+				.createdAt(new Date())
 				.build();
 		user = userRepository.save(user);
 		return user;

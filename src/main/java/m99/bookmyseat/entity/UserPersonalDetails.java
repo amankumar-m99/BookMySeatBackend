@@ -25,6 +25,8 @@ public class UserPersonalDetails {
 
 	private String firstName;
 
+	private String middleName;
+
 	private String last_name;
 
 	private String phoneNumber;

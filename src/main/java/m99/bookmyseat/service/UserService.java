@@ -37,7 +37,7 @@ public class UserService {
 	public User addUser(SignUpModel model) {
 		User user = User.builder()
 				.email(model.getEmail())
-				.username(model.getUsername())
+				.username(model.getEmail())
 				.password(model.getPassword())
 				.personalDetails(createUserPersonalDetails(model))
 				.createdAt(new Date())
@@ -48,9 +48,10 @@ public class UserService {
 
 	private UserPersonalDetails createUserPersonalDetails(SignUpModel model) {
 		String firstName = model.getFirstName();
+		String middleName = model.getMiddleName();
 		String lastName = model.getLastName();
 		String phoneNumber = model.getPhoneNumber();
-		return personalDetailsRepository.save(new UserPersonalDetails(0L, firstName, lastName, phoneNumber));
+		return personalDetailsRepository.save(new UserPersonalDetails(0L, firstName, middleName, lastName, phoneNumber));
 	}
 
 	public User getUserById(Long id) {

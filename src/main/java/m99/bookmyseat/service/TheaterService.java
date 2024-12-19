@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import m99.bookmyseat.customexception.theater.TheaterNotFoundException;
 import m99.bookmyseat.entity.Theater;
 import m99.bookmyseat.repository.TheaterRepository;
 
+@Service
 public class TheaterService {
 
 	@Autowired

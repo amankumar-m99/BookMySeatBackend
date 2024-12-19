@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,20 +14,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import m99.bookmyseat.entity.Movie;
-import m99.bookmyseat.service.MovieService;
+import m99.bookmyseat.entity.Theater;
+import m99.bookmyseat.service.TheaterService;
 
 @RestController
-@RequestMapping("movie")
-public class MovieController {
+@RequestMapping("theater")
+@CrossOrigin
+public class TheaterController {
 
 	@Autowired
-	private MovieService movieService;
+	private TheaterService theaterService;
 
 	@GetMapping("/get/{id}")
-	public ResponseEntity<Movie> getMovieById(@PathVariable Long id){
+	public ResponseEntity<Theater> getTheaterById(@PathVariable Long id){
 		try {
-			return new ResponseEntity<>(movieService.getMovieById(id), HttpStatus.CREATED);
+			return new ResponseEntity<>(theaterService.getTheaterById(id), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -34,9 +36,9 @@ public class MovieController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<List<Movie>> getAllMovies(){
+	public ResponseEntity<List<Theater>> getAllTheaters(){
 		try {
-			return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
+			return new ResponseEntity<>(theaterService.getAllTheaters(), HttpStatus.OK);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -44,9 +46,9 @@ public class MovieController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+	public ResponseEntity<Theater> addTheater(@RequestBody Theater theater) {
 		try {
-			return new ResponseEntity<>(movieService.addMovie(movie), HttpStatus.CREATED);
+			return new ResponseEntity<>(theaterService.addTheater(theater), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -54,9 +56,9 @@ public class MovieController {
 	}
 
 	@PutMapping
-	public ResponseEntity<Movie> updateMovie(@RequestBody Movie movie) {
+	public ResponseEntity<Theater> updateTheater(@RequestBody Theater theater) {
 		try {
-			return new ResponseEntity<>(movieService.updateMovie(movie), HttpStatus.CREATED);
+			return new ResponseEntity<>(theaterService.updateTheater(theater), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

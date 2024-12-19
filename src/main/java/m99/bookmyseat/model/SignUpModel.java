@@ -15,5 +15,6 @@ public class SignUpModel {
 	private String middleName;
 	private String lastName;
 	private String phoneNumber;
+	private String role;
 
 }

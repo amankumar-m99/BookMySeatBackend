@@ -39,6 +39,7 @@ public class UserService {
 				.email(model.getEmail())
 				.username(model.getEmail())
 				.password(model.getPassword())
+				.role(model.getRole())
 				.personalDetails(createUserPersonalDetails(model))
 				.createdAt(new Date())
 				.build();

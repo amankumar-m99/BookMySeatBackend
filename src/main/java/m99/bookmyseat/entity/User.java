@@ -49,6 +49,9 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Ticket> tickets;
 
+	@OneToMany(mappedBy = "owner")
+	private List<Theater> theaters;
+
 	@Temporal(TemporalType.DATE)
 	private Date createdAt;
 

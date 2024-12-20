@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import m99.bookmyseat.entity.Theater;
+import m99.bookmyseat.model.TheaterFormModel;
 import m99.bookmyseat.service.TheaterService;
 
 @RestController
@@ -46,9 +47,9 @@ public class TheaterController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Theater> addTheater(@RequestBody Theater theater) {
+	public ResponseEntity<Theater> addTheater(@RequestBody TheaterFormModel model) {
 		try {
-			return new ResponseEntity<>(theaterService.addTheater(theater), HttpStatus.CREATED);
+			return new ResponseEntity<>(theaterService.addTheater(model), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

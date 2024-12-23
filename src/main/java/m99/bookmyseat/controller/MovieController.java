@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,15 +14,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.annotation.PostConstruct;
 import m99.bookmyseat.entity.Movie;
+import m99.bookmyseat.seeder.MovieSeeder;
 import m99.bookmyseat.service.MovieService;
 
 @RestController
 @RequestMapping("movie")
+@CrossOrigin
 public class MovieController {
 
 	@Autowired
 	private MovieService movieService;
+
+	@PostConstruct
+	public void seedMovies() {
+		System.out.println("seeding movies...");
+		new MovieSeeder().seedMovies(movieService);
+		System.out.println("Movie seeded.");
+	}
 
 	@GetMapping("/get/{id}")
 	public ResponseEntity<Movie> getMovieById(@PathVariable Long id){

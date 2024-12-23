@@ -46,6 +46,16 @@ public class TheaterController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/owner/{ownerId}")
+	public ResponseEntity<List<Theater>> getAllTheatersByOwner(@PathVariable Long ownerId){
+		try {
+			return new ResponseEntity<>(theaterService.getAllTheatersByOwner(ownerId), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 	@PostMapping
 	public ResponseEntity<Theater> addTheater(@RequestBody TheaterFormModel model) {
 		try {

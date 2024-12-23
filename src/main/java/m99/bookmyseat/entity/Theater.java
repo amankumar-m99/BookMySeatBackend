@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -36,13 +35,12 @@ public class Theater {
 
 	private String location;
 
+	private int numberOfScreens;
+
 	private String phoneNumber;
 
 	@ManyToOne
 	private User owner;
-
-	@OneToMany(mappedBy = "theater")
-	private List<Screen> screens;
 
 	@ManyToMany
 	private List<Movie> movies;

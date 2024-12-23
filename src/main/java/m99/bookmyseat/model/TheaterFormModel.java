@@ -1,7 +1,5 @@
 package m99.bookmyseat.model;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +19,6 @@ public class TheaterFormModel {
 
 	private String phoneNumber;
 
-	private List<Integer> screensCapacities;
+	private Integer numberOfScreens;
 
 }

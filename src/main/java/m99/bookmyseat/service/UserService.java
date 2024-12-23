@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import m99.bookmyseat.customexception.BadCredentialsException;
 import m99.bookmyseat.customexception.user.UserNotFoundException;
 import m99.bookmyseat.entity.User;
-import m99.bookmyseat.entity.UserPersonalDetails;
+import m99.bookmyseat.entity.UserPersonalDetail;
 import m99.bookmyseat.model.LoginModel;
 import m99.bookmyseat.model.SignUpModel;
-import m99.bookmyseat.repository.UserPersonalDetailsRepository;
+import m99.bookmyseat.repository.UserPersonalDetailRepository;
 import m99.bookmyseat.repository.UserRepository;
 
 @Service
@@ -22,7 +22,7 @@ public class UserService {
 	private UserRepository userRepository;
 
 	@Autowired
-	private UserPersonalDetailsRepository personalDetailsRepository;
+	private UserPersonalDetailRepository personalDetailsRepository;
 
 	public User login(LoginModel loginModel) {
 		String username = loginModel.getUsername();
@@ -40,19 +40,19 @@ public class UserService {
 				.username(model.getEmail())
 				.password(model.getPassword())
 				.role(model.getRole())
-				.personalDetails(createUserPersonalDetails(model))
 				.createdAt(new Date())
 				.build();
 		user = userRepository.save(user);
+		createUserPersonalDetail(model, user);
 		return user;
 	}
 
-	private UserPersonalDetails createUserPersonalDetails(SignUpModel model) {
+	private UserPersonalDetail createUserPersonalDetail(SignUpModel model, User user) {
 		String firstName = model.getFirstName();
 		String middleName = model.getMiddleName();
 		String lastName = model.getLastName();
 		String phoneNumber = model.getPhoneNumber();
-		return personalDetailsRepository.save(new UserPersonalDetails(0L, firstName, middleName, lastName, phoneNumber));
+		return personalDetailsRepository.save(new UserPersonalDetail(null, firstName, middleName, lastName, phoneNumber, user));
 	}
 
 	public User getUserById(Long id) {

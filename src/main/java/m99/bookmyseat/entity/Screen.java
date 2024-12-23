@@ -29,9 +29,6 @@ public class Screen {
 	private String name;
 
 	@OneToMany(mappedBy = "screen")
-	private List<Seat> seats;
-
-	@OneToMany(mappedBy = "screen")
 	private List<Showcase> showcases;
 
 	@ManyToOne

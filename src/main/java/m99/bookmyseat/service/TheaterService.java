@@ -1,7 +1,6 @@
 package m99.bookmyseat.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,20 +40,18 @@ public class TheaterService {
 		Theater theater = Theater.builder().name(model.getName()).location(model.getLocation()).owner(user)
 				.phoneNumber(model.getPhoneNumber()).createdAt(new Date()).build();
 		theater = addTheater(theater);
-		theater.setScreens(getScreensFromModel(model.getScreensCapacities(), theater));
-		return addTheater(theater);
+		List<Screen> insertScreensInDB = insertScreensInDB(model.getNumberOfScreens(), theater);
+		theater.setNumberOfScreens(insertScreensInDB.size());
+		theater = addTheater(theater);
+		return theater;
 	}
 
-	private List<Screen> getScreensFromModel(List<Integer> list, Theater theater) {
-		if (list.size() == 0) {
-			return Collections.emptyList();
-		}
+	private List<Screen> insertScreensInDB(Integer numberOfScreens, Theater theater) {
 		List<Screen> screens = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			Screen screen = new Screen(1L, "Screen " + i, null, null, theater);
+		for (int i = 1; i <= numberOfScreens; i++) {
+			Screen screen = new Screen(null, "Screen " + i, null, theater);
 			screen = screenService.addScreen(screen);
-			screen.setSeats(seatService.addSeatsToScreen(screen));
-			screen = screenService.addScreen(screen);
+			seatService.addSeatsToScreen(screen);
 			screens.add(screen);
 		}
 		return screens;
@@ -71,6 +68,11 @@ public class TheaterService {
 	}
 
 	public List<Theater> getAllTheaters() {
+		List<Theater> theaters = theaterRepository.findAll();
+		return theaters;
+	}
+
+	public List<Theater> getAllTheatersByOwner(Long ownerId) {
 		List<Theater> theaters = theaterRepository.findAll();
 		return theaters;
 	}

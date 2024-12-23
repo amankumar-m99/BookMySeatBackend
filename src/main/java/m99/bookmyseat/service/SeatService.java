@@ -23,7 +23,7 @@ public class SeatService {
 		for(char row = 'A'; row <= maxRows; row++) {
 			for(int col = 1; col <= maxCols; col++) {
 				String seatNUmber = ""+row+""+col;
-				seats.add(new Seat(1L, seatNUmber, false, null, screen));
+				seats.add(new Seat(null, seatNUmber, false, null, screen));
 			}
 		}
 		seats = seatRepository.saveAll(seats);

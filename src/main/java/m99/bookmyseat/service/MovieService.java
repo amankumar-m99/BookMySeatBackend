@@ -21,14 +21,19 @@ public class MovieService {
 		return movie;
 	}
 
+	public List<Movie> addMovies(List<Movie> movies) {
+		movies = movieRepository.saveAll(movies);
+		return movies;
+	}
+
 	public Movie getMovieById(Long id) {
 		Optional<Movie> findById = movieRepository.findById(id);
 		return findById.orElseThrow(()-> new MovieNotFoundException("No movie found by id " + id));
 	}
 
 	public List<Movie> getAllMovies(){
-		List<Movie> theaters = movieRepository.findAll();
-		return theaters;
+		List<Movie> movies = movieRepository.findAll();
+		return movies;
 	}
 
 	public Movie updateMovie(Movie movie) {

@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class UserPersonalDetails {
+public class UserPersonalDetail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +31,8 @@ public class UserPersonalDetails {
 	private String last_name;
 
 	private String phoneNumber;
+
+	@OneToOne
+	private User user;
 
 }

@@ -14,6 +14,7 @@ import m99.bookmyseat.entity.Screen;
 import m99.bookmyseat.entity.Theater;
 import m99.bookmyseat.entity.User;
 import m99.bookmyseat.model.TheaterFormModel;
+import m99.bookmyseat.model.TheaterJSONModel;
 import m99.bookmyseat.repository.TheaterRepository;
 
 @Service
@@ -32,7 +33,7 @@ public class TheaterService {
 	@Autowired
 	private SeatService seatService;
 
-	public Theater addTheater(TheaterFormModel model) {
+	public TheaterJSONModel addTheater(TheaterFormModel model) {
 		User user = userService.getUserById(model.getOwnerId());
 		if (user == null) {
 			throw new UserNotFoundException("Invalid owner id");
@@ -40,10 +41,9 @@ public class TheaterService {
 		Theater theater = Theater.builder().name(model.getName()).location(model.getLocation()).owner(user)
 				.phoneNumber(model.getPhoneNumber()).createdAt(new Date()).build();
 		theater = addTheater(theater);
-		List<Screen> insertScreensInDB = insertScreensInDB(model.getNumberOfScreens(), theater);
-		theater.setNumberOfScreens(insertScreensInDB.size());
+		theater.setScreens(insertScreensInDB(model.getNumberOfScreens(), theater));
 		theater = addTheater(theater);
-		return theater;
+		return TheaterJSONModel.getJSONFromTheater(theater);
 	}
 
 	private List<Screen> insertScreensInDB(Integer numberOfScreens, Theater theater) {
@@ -62,9 +62,10 @@ public class TheaterService {
 		return theater;
 	}
 
-	public Theater getTheaterById(Long id) {
+	public TheaterJSONModel getTheaterById(Long id) {
 		Optional<Theater> findById = theaterRepository.findById(id);
-		return findById.orElseThrow(() -> new TheaterNotFoundException("No theater found by given id"));
+		Theater theater = findById.orElseThrow(() -> new TheaterNotFoundException("No theater found by given id"));
+		return TheaterJSONModel.getJSONFromTheater(theater);
 	}
 
 	public List<Theater> getAllTheaters() {

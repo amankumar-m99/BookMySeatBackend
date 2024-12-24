@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import m99.bookmyseat.entity.Theater;
 import m99.bookmyseat.model.TheaterFormModel;
+import m99.bookmyseat.model.TheaterJSONModel;
 import m99.bookmyseat.service.TheaterService;
 
 @RestController
@@ -27,7 +28,7 @@ public class TheaterController {
 	private TheaterService theaterService;
 
 	@GetMapping("/get/{id}")
-	public ResponseEntity<Theater> getTheaterById(@PathVariable Long id){
+	public ResponseEntity<TheaterJSONModel> getTheaterById(@PathVariable Long id){
 		try {
 			return new ResponseEntity<>(theaterService.getTheaterById(id), HttpStatus.CREATED);
 		}catch (Exception e) {
@@ -57,7 +58,7 @@ public class TheaterController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Theater> addTheater(@RequestBody TheaterFormModel model) {
+	public ResponseEntity<TheaterJSONModel> addTheater(@RequestBody TheaterFormModel model) {
 		try {
 			return new ResponseEntity<>(theaterService.addTheater(model), HttpStatus.CREATED);
 		}catch (Exception e) {

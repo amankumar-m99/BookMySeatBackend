@@ -52,7 +52,7 @@ public class UserService {
 		String middleName = model.getMiddleName();
 		String lastName = model.getLastName();
 		String phoneNumber = model.getPhoneNumber();
-		return personalDetailsRepository.save(new UserPersonalDetail(null, firstName, middleName, lastName, phoneNumber, user));
+		return personalDetailsRepository.save(new UserPersonalDetail(firstName, middleName, lastName, phoneNumber, user));
 	}
 
 	public User getUserById(Long id) {

@@ -49,7 +49,7 @@ public class TheaterService {
 	private List<Screen> insertScreensInDB(Integer numberOfScreens, Theater theater) {
 		List<Screen> screens = new ArrayList<>();
 		for (int i = 1; i <= numberOfScreens; i++) {
-			Screen screen = new Screen(null, "Screen " + i, null, theater);
+			Screen screen = new Screen("Screen " + i, null, theater);
 			screen = screenService.addScreen(screen);
 			seatService.addSeatsToScreen(screen);
 			screens.add(screen);

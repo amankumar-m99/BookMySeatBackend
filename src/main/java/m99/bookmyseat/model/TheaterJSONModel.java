@@ -2,13 +2,13 @@ package m99.bookmyseat.model;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import m99.bookmyseat.entity.BaseEntity;
 import m99.bookmyseat.entity.Theater;
 
 @Getter
@@ -31,7 +31,7 @@ public class TheaterJSONModel {
 		return TheaterJSONModel.builder().id(theater.getId()).name(theater.getName()).location(theater.getName())
 				.phoneNumber(theater.getPhoneNumber()).createdAt(theater.getCreatedAt())
 				.ownerId(theater.getOwner().getId())
-				.screenIds(theater.getScreens().stream().map(s -> s.getId()).collect(Collectors.toList()))
-				.movieIds(theater.getMovies().stream().map(m -> m.getId()).collect(Collectors.toList())).build();
+				.screenIds(BaseEntity.getIdsFromList(theater.getScreens()))
+				.movieIds(BaseEntity.getIdsFromList(theater.getMovies())).build();
 	}
 }

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.annotation.PostConstruct;
 import m99.bookmyseat.customexception.BadCredentialsException;
 import m99.bookmyseat.entity.User;
 import m99.bookmyseat.model.LoginModel;
 import m99.bookmyseat.model.SignUpModel;
+import m99.bookmyseat.seeder.UserSeeder;
 import m99.bookmyseat.service.UserService;
 
 @RestController
@@ -26,6 +28,17 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@PostConstruct
+	public void seedUsers() {
+		if(userService.getAllUsers().size() != 0) {
+			System.out.println("No need to seed users");
+			return;
+		}
+		System.out.println("Seeding users...");
+		new UserSeeder().seedUsers(userService);
+		System.out.println("Users seeded.");
+	}
 
 	@PostMapping("/login")
 	public ResponseEntity<User> loginUser(@RequestBody LoginModel model) {

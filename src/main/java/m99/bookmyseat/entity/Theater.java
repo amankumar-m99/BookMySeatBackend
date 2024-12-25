@@ -3,6 +3,9 @@ package m99.bookmyseat.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -38,6 +41,8 @@ public class Theater extends BaseEntity {
 	private List<Movie> movies;
 
 	@OneToMany(mappedBy = "theater")
+//	@JsonManagedReference
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	private List<Screen> screens;
 
 	@Temporal(TemporalType.DATE)

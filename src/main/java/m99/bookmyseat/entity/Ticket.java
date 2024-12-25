@@ -23,7 +23,7 @@ import lombok.ToString;
 public class Ticket extends BaseEntity {
 
 	@ManyToOne
-	private Showcase showcase;
+	private Showtime showtime;
 
 	@OneToMany(mappedBy = "ticket")
 	private List<Seat> seats;

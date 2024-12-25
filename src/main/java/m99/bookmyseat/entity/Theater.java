@@ -40,6 +40,9 @@ public class Theater extends BaseEntity {
 	@ManyToMany
 	private List<Movie> movies;
 
+	@OneToMany(mappedBy =  "theater")
+	private List<Showtime> showtimes;
+
 	@OneToMany(mappedBy = "theater")
 //	@JsonManagedReference
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")

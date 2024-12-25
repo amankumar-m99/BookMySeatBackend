@@ -5,7 +5,6 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -37,9 +36,6 @@ public class Movie extends BaseEntity {
 	private double rating;
 
 	private String posterUrl;
-
-	@OneToMany(mappedBy = "movie")
-	private List<Showcase> showcases;
 
 	@ManyToMany
 	private List<Theater> theaters;

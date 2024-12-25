@@ -20,7 +20,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class Showcase extends BaseEntity {
+public class Showtime extends BaseEntity {
 
 	@ManyToOne
 	private Movie movie;
@@ -28,7 +28,10 @@ public class Showcase extends BaseEntity {
 	@ManyToOne
 	private Screen screen;
 
-	@OneToMany(mappedBy = "showcase")
+	@ManyToOne
+	private Theater theater;
+
+	@OneToMany(mappedBy = "showtime")
 	private List<Ticket> tickets;
 
 	@Temporal(TemporalType.DATE)

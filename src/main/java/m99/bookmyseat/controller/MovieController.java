@@ -29,7 +29,11 @@ public class MovieController {
 
 	@PostConstruct
 	public void seedMovies() {
-		System.out.println("seeding movies...");
+		if(movieService.getAllMovies().size() != 0) {
+			System.out.println("No need to seed movies");
+			return;
+		}
+		System.out.println("Seeding movies...");
 		new MovieSeeder().seedMovies(movieService);
 		System.out.println("Movie seeded.");
 	}
@@ -48,6 +52,16 @@ public class MovieController {
 	public ResponseEntity<List<Movie>> getAllMovies(){
 		try {
 			return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@PostMapping("/all")
+	public ResponseEntity<List<Movie>> getAllMoviesById(@RequestBody List<Long> ids){
+		try {
+			return new ResponseEntity<>(movieService.getAllMoviesById(ids), HttpStatus.OK);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

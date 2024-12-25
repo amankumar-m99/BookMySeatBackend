@@ -1,5 +1,6 @@
 package m99.bookmyseat.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +40,15 @@ public class MovieService {
 	public Movie updateMovie(Movie movie) {
 		getMovieById(movie.getId());
 		return addMovie(movie);
+	}
+
+	public List<Movie> getAllMoviesById(List<Long> ids) {
+		List<Movie> movies = new ArrayList<>();
+		for(Long id: ids) {
+			try {
+				movies.add(getMovieById(id));
+			}catch(Exception e) {}
+		}
+		return movies;
 	}
 }

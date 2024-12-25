@@ -10,11 +10,12 @@ import org.springframework.stereotype.Service;
 
 import m99.bookmyseat.customexception.theater.TheaterNotFoundException;
 import m99.bookmyseat.customexception.user.UserNotFoundException;
-import m99.bookmyseat.entity.Screen;
+import m99.bookmyseat.entity.Movie;
 import m99.bookmyseat.entity.Theater;
 import m99.bookmyseat.entity.User;
 import m99.bookmyseat.model.TheaterFormModel;
 import m99.bookmyseat.model.TheaterJSONModel;
+import m99.bookmyseat.model.TheaterMovieAddModel;
 import m99.bookmyseat.repository.TheaterRepository;
 
 @Service
@@ -26,12 +27,11 @@ public class TheaterService {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private MovieService movieService;
 
 	@Autowired
 	private ScreenService screenService;
-
-	@Autowired
-	private SeatService seatService;
 
 	public TheaterJSONModel addTheater(TheaterFormModel model) {
 		User user = userService.getUserById(model.getOwnerId());
@@ -41,20 +41,10 @@ public class TheaterService {
 		Theater theater = Theater.builder().name(model.getName()).location(model.getLocation()).owner(user)
 				.phoneNumber(model.getPhoneNumber()).createdAt(new Date()).build();
 		theater = addTheater(theater);
-		theater.setScreens(insertScreensInDB(model.getNumberOfScreens(), theater));
+		theater.setScreens(screenService.addScreenByCount(model.getNumberOfScreens(), theater));
 		theater = addTheater(theater);
-		return TheaterJSONModel.getJSONFromTheater(theater);
-	}
-
-	private List<Screen> insertScreensInDB(Integer numberOfScreens, Theater theater) {
-		List<Screen> screens = new ArrayList<>();
-		for (int i = 1; i <= numberOfScreens; i++) {
-			Screen screen = new Screen("Screen " + i, null, theater);
-			screen = screenService.addScreen(screen);
-			seatService.addSeatsToScreen(screen);
-			screens.add(screen);
-		}
-		return screens;
+		TheaterJSONModel jsonFromTheater = TheaterJSONModel.getModel(theater);
+		return jsonFromTheater;
 	}
 
 	private Theater addTheater(Theater theater) {
@@ -62,24 +52,41 @@ public class TheaterService {
 		return theater;
 	}
 
-	public TheaterJSONModel getTheaterById(Long id) {
+	public Theater getTheaterById(Long id) {
 		Optional<Theater> findById = theaterRepository.findById(id);
 		Theater theater = findById.orElseThrow(() -> new TheaterNotFoundException("No theater found by given id"));
-		return TheaterJSONModel.getJSONFromTheater(theater);
+		return theater;
 	}
 
-	public List<Theater> getAllTheaters() {
-		List<Theater> theaters = theaterRepository.findAll();
-		return theaters;
+	public TheaterJSONModel getTheaterJSONById(Long id) {
+		return TheaterJSONModel.getModel(getTheaterById(id));
 	}
 
-	public List<Theater> getAllTheatersByOwner(Long ownerId) {
+	public List<TheaterJSONModel> getAllTheaters() {
 		List<Theater> theaters = theaterRepository.findAll();
-		return theaters;
+		List<TheaterJSONModel> theaterJSONModels = TheaterJSONModel.getModels(theaters);
+		return theaterJSONModels;
+	}
+
+	public List<TheaterJSONModel> getAllTheatersByOwner(Long ownerId) {
+		List<Theater> theaters = theaterRepository.findByOwnerId(ownerId);
+		List<TheaterJSONModel> theaterJSONModels = TheaterJSONModel.getModels(theaters);
+		return theaterJSONModels;
 	}
 
 	public Theater updateTheater(Theater theater) {
 		getTheaterById(theater.getId());
 		return addTheater(theater);
+	}
+
+	public TheaterJSONModel updateTheater(TheaterMovieAddModel model) {
+		Theater theater = getTheaterById(model.getTheaterId());
+		Movie movie = movieService.getMovieById(model.getMovieId());
+		List<Movie> movies = theater.getMovies();
+		if(movies == null) {
+			movies = new ArrayList<Movie>();
+		}
+		movies.add(movie);
+		return TheaterJSONModel.getModel(addTheater(theater));
 	}
 }

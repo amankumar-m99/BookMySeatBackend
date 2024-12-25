@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import m99.bookmyseat.entity.Theater;
 import m99.bookmyseat.model.TheaterFormModel;
 import m99.bookmyseat.model.TheaterJSONModel;
+import m99.bookmyseat.model.TheaterMovieAddModel;
 import m99.bookmyseat.service.TheaterService;
 
 @RestController
@@ -30,7 +31,7 @@ public class TheaterController {
 	@GetMapping("/get/{id}")
 	public ResponseEntity<TheaterJSONModel> getTheaterById(@PathVariable Long id){
 		try {
-			return new ResponseEntity<>(theaterService.getTheaterById(id), HttpStatus.CREATED);
+			return new ResponseEntity<>(theaterService.getTheaterJSONById(id), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -38,7 +39,7 @@ public class TheaterController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<List<Theater>> getAllTheaters(){
+	public ResponseEntity<List<TheaterJSONModel>> getAllTheaters(){
 		try {
 			return new ResponseEntity<>(theaterService.getAllTheaters(), HttpStatus.OK);
 		}catch (Exception e) {
@@ -48,7 +49,7 @@ public class TheaterController {
 	}
 
 	@GetMapping("/owner/{ownerId}")
-	public ResponseEntity<List<Theater>> getAllTheatersByOwner(@PathVariable Long ownerId){
+	public ResponseEntity<List<TheaterJSONModel>> getAllTheatersByOwner(@PathVariable Long ownerId){
 		try {
 			return new ResponseEntity<>(theaterService.getAllTheatersByOwner(ownerId), HttpStatus.OK);
 		}catch (Exception e) {
@@ -71,6 +72,16 @@ public class TheaterController {
 	public ResponseEntity<Theater> updateTheater(@RequestBody Theater theater) {
 		try {
 			return new ResponseEntity<>(theaterService.updateTheater(theater), HttpStatus.CREATED);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@PutMapping("/addMovie")
+	public ResponseEntity<TheaterJSONModel> addMoviesToTheater(@RequestBody TheaterMovieAddModel model) {
+		try {
+			return new ResponseEntity<>(theaterService.updateTheater(model), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

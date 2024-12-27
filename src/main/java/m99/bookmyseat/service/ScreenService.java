@@ -34,4 +34,8 @@ public class ScreenService {
 		return screens;
 	}
 
+	public Screen getScreenById(Long id) {
+		return screenRepository.findById(id).orElse(null);
+	}
+
 }

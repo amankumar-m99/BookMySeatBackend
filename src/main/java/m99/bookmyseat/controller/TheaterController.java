@@ -29,9 +29,19 @@ public class TheaterController {
 	private TheaterService theaterService;
 
 	@GetMapping("/get/{id}")
-	public ResponseEntity<TheaterJSONModel> getTheaterById(@PathVariable Long id){
+	public ResponseEntity<Theater> getTheaterById(@PathVariable Long id){
 		try {
-			return new ResponseEntity<>(theaterService.getTheaterJSONById(id), HttpStatus.CREATED);
+			return new ResponseEntity<>(theaterService.getTheaterById(id), HttpStatus.CREATED);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@GetMapping("/json/get/{id}")
+	public ResponseEntity<TheaterJSONModel> getTheaterByIdJSON(@PathVariable Long id){
+		try {
+			return new ResponseEntity<>(theaterService.getTheaterByIdJSON(id), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -39,7 +49,7 @@ public class TheaterController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<List<TheaterJSONModel>> getAllTheaters(){
+	public ResponseEntity<List<Theater>> getAllTheaters(){
 		try {
 			return new ResponseEntity<>(theaterService.getAllTheaters(), HttpStatus.OK);
 		}catch (Exception e) {
@@ -48,8 +58,18 @@ public class TheaterController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/json/all")
+	public ResponseEntity<List<TheaterJSONModel>> getAllTheatersJSON(){
+		try {
+			return new ResponseEntity<>(theaterService.getAllTheatersJSON(), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 	@GetMapping("/owner/{ownerId}")
-	public ResponseEntity<List<TheaterJSONModel>> getAllTheatersByOwner(@PathVariable Long ownerId){
+	public ResponseEntity<List<Theater>> getAllTheatersByOwner(@PathVariable Long ownerId){
 		try {
 			return new ResponseEntity<>(theaterService.getAllTheatersByOwner(ownerId), HttpStatus.OK);
 		}catch (Exception e) {
@@ -58,10 +78,30 @@ public class TheaterController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/json/owner/{ownerId}")
+	public ResponseEntity<List<TheaterJSONModel>> getAllTheatersByOwnerJSON(@PathVariable Long ownerId){
+		try {
+			return new ResponseEntity<>(theaterService.getAllTheatersByOwnerJSON(ownerId), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 	@PostMapping
-	public ResponseEntity<TheaterJSONModel> addTheater(@RequestBody TheaterFormModel model) {
+	public ResponseEntity<Theater> addTheater(@RequestBody TheaterFormModel model) {
 		try {
 			return new ResponseEntity<>(theaterService.addTheater(model), HttpStatus.CREATED);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@PostMapping("/json")
+	public ResponseEntity<TheaterJSONModel> addTheaterJSON(@RequestBody TheaterFormModel model) {
+		try {
+			return new ResponseEntity<>(theaterService.addTheaterJSON(model), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -78,10 +118,30 @@ public class TheaterController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@PutMapping("/addMovie")
-	public ResponseEntity<TheaterJSONModel> addMoviesToTheater(@RequestBody TheaterMovieAddModel model) {
+	@PutMapping("/json")
+	public ResponseEntity<TheaterJSONModel> updateTheaterJSON(@RequestBody Theater theater) {
 		try {
-			return new ResponseEntity<>(theaterService.updateTheater(model), HttpStatus.CREATED);
+			return new ResponseEntity<>(theaterService.updateTheaterJSON(theater), HttpStatus.CREATED);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@PutMapping("/addMovie")
+	public ResponseEntity<Theater> addMoviesToTheater(@RequestBody TheaterMovieAddModel model) {
+		try {
+			return new ResponseEntity<>(theaterService.addMovieToTheater(model), HttpStatus.CREATED);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@PutMapping("/json/addMovie")
+	public ResponseEntity<TheaterJSONModel> addMoviesToTheaterJSON(@RequestBody TheaterMovieAddModel model) {
+		try {
+			return new ResponseEntity<>(theaterService.addMovieToTheaterJSON(model), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

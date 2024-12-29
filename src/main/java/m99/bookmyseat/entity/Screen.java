@@ -1,7 +1,6 @@
 package m99.bookmyseat.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -10,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import m99.bookmyseat.serializer.TheaterBackReferenceSerializer;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,6 +23,7 @@ public class Screen extends BaseEntity {
 
 	@ManyToOne
 //	@JsonBackReference
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+	@JsonSerialize(using = TheaterBackReferenceSerializer.class)
 	private Theater theater;
 }

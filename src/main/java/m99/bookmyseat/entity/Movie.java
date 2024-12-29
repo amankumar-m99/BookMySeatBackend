@@ -3,8 +3,7 @@ package m99.bookmyseat.entity;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -16,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import m99.bookmyseat.serializer.TheaterBackReferenceSerializer;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,7 +41,9 @@ public class Movie extends BaseEntity {
 	private String posterUrl;
 
 	@ManyToMany(mappedBy = "movies")
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//	@JsonBackReference
+    @JsonSerialize(using = TheaterBackReferenceSerializer.class)
 	private List<Theater> theaters;
 
 	@Temporal(TemporalType.DATE)

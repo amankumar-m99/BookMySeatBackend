@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -18,6 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import m99.bookmyseat.serializer.MovieBackReferenceSerializer;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,8 +40,9 @@ public class Theater extends BaseEntity {
 	@ManyToOne
 	private User owner;
 
-	@ManyToMany
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+	@ManyToMany(fetch = FetchType.EAGER)
+//	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonSerialize(using = MovieBackReferenceSerializer.class)
 	private List<Movie> movies;
 
 	@OneToMany(mappedBy =  "theater")

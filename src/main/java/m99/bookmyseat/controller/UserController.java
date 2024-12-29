@@ -72,6 +72,16 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
+	@GetMapping("/get/id/{id}")
+	public ResponseEntity<User> getUserById(@PathVariable Long id) {
+		try {
+			return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
 	@GetMapping("/all")
 	public ResponseEntity<List<User>> getAllUsers() {
 		try {

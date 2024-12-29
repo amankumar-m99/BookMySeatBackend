@@ -41,7 +41,7 @@ public class MovieController {
 	@GetMapping("/get/{id}")
 	public ResponseEntity<Movie> getMovieById(@PathVariable Long id){
 		try {
-			return new ResponseEntity<>(movieService.getMovieById(id), HttpStatus.CREATED);
+			return new ResponseEntity<>(movieService.getMovieById(id), HttpStatus.OK);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

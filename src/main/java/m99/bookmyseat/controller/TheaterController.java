@@ -31,7 +31,7 @@ public class TheaterController {
 	@GetMapping("/get/{id}")
 	public ResponseEntity<Theater> getTheaterById(@PathVariable Long id){
 		try {
-			return new ResponseEntity<>(theaterService.getTheaterById(id), HttpStatus.CREATED);
+			return new ResponseEntity<>(theaterService.getTheaterById(id), HttpStatus.OK);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -41,7 +41,7 @@ public class TheaterController {
 	@GetMapping("/json/get/{id}")
 	public ResponseEntity<TheaterJSONModel> getTheaterByIdJSON(@PathVariable Long id){
 		try {
-			return new ResponseEntity<>(theaterService.getTheaterByIdJSON(id), HttpStatus.CREATED);
+			return new ResponseEntity<>(theaterService.getTheaterByIdJSON(id), HttpStatus.OK);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

@@ -14,6 +14,7 @@ import m99.bookmyseat.entity.Movie;
 import m99.bookmyseat.entity.Screen;
 import m99.bookmyseat.entity.Showtime;
 import m99.bookmyseat.entity.Theater;
+import m99.bookmyseat.entity.Timeslot;
 import m99.bookmyseat.entity.User;
 
 public class TheaterBackReferenceSerializer extends JsonSerializer<Object> {
@@ -49,6 +50,7 @@ public class TheaterBackReferenceSerializer extends JsonSerializer<Object> {
 		gen.writeStringField("location", theater.getLocation());
 		gen.writeStringField("phoneNumber", theater.getPhoneNumber());
 		writeOwner(gen, theater.getOwner());
+		writeTimeslots(gen, theater.getTimeslots());
 		writeMovies(gen, theater.getMovies());
 		writeShowtimes(gen, theater.getShowtimes());
 		writeScreens(gen, theater.getScreens());
@@ -63,6 +65,21 @@ public class TheaterBackReferenceSerializer extends JsonSerializer<Object> {
 			gen.writeNumberField("id", owner.getId());
 		}
 		gen.writeEndObject();
+	}
+
+	private void writeTimeslots(JsonGenerator gen, List<Timeslot> timeslots) throws IOException {
+		gen.writeFieldName("timeslots");
+		gen.writeStartArray();
+		if(timeslots != null) {
+			for (Timeslot timeslot : timeslots) {
+				gen.writeStartObject();
+				gen.writeNumberField("id", timeslot.getId());
+				gen.writeNumberField("startHH", timeslot.getStartHH());
+				gen.writeNumberField("startMM", timeslot.getStartMM());
+				gen.writeEndObject();
+			}
+		}
+		gen.writeEndArray();
 	}
 
 	private void writeMovies(JsonGenerator gen, List<Movie> movies) throws IOException {

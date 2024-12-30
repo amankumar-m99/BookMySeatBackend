@@ -37,8 +37,14 @@ public class Theater extends BaseEntity {
 
 	private String phoneNumber;
 
+	@Temporal(TemporalType.DATE)
+	private Date createdAt;
+
 	@ManyToOne
 	private User owner;
+
+	@OneToMany(mappedBy = "theater")
+	private List<Timeslot> timeslots;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 //	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -53,8 +59,5 @@ public class Theater extends BaseEntity {
 //	@JsonManagedReference
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	private List<Screen> screens;
-
-	@Temporal(TemporalType.DATE)
-	private Date createdAt;
 
 }

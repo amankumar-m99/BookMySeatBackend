@@ -11,6 +11,7 @@ import m99.bookmyseat.entity.Movie;
 import m99.bookmyseat.entity.Screen;
 import m99.bookmyseat.entity.Showtime;
 import m99.bookmyseat.entity.Theater;
+import m99.bookmyseat.entity.Timeslot;
 import m99.bookmyseat.model.ShowtimeFormModel;
 import m99.bookmyseat.repository.ShowtimeRepository;
 
@@ -22,27 +23,23 @@ public class ShowtimeService {
 
 	@Autowired
 	private MovieService movieService;
-	
+
 	@Autowired
 	private ScreenService screenService;
-	
+
 	@Autowired
 	private TheaterService theaterService;
 
 	public List<Showtime> addShowtime(List<ShowtimeFormModel> models) {
 		List<Showtime> showtimes = new ArrayList<Showtime>();
-		for(ShowtimeFormModel model: models) {
+		for (ShowtimeFormModel model : models) {
 			Movie movie = movieService.getMovieById(model.getMovieId());
 			Screen screen = screenService.getScreenById(model.getScreenId());
 			Theater theater = theaterService.getTheaterById(model.getTheaterId());
-			Showtime showtime = Showtime.builder()
-					.movie(movie)
-					.screen(screen)
-					.theater(theater)
-					.startHH(model.getStartHH())
-					.startMM(model.getStartMM())
-					.startTime(new Date())
-					.build();
+			Timeslot timeslot = theater.getTimeslots().stream().filter(t -> t.getId() == model.getTimeslotId())
+					.findFirst().orElse(null);
+			Showtime showtime = Showtime.builder().movie(movie).screen(screen).theater(theater).timeslot(timeslot)
+					.date(new Date()).build();
 			showtimes.add(showtimeRepository.save(showtime));
 		}
 		return showtimes;

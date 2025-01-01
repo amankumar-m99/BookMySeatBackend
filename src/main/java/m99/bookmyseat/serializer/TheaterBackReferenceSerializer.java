@@ -49,16 +49,16 @@ public class TheaterBackReferenceSerializer extends JsonSerializer<Object> {
 		gen.writeStringField("name", theater.getName());
 		gen.writeStringField("location", theater.getLocation());
 		gen.writeStringField("phoneNumber", theater.getPhoneNumber());
-		writeOwner(gen, theater.getOwner());
-		writeTimeslots(gen, theater.getTimeslots());
-		writeMovies(gen, theater.getMovies());
-		writeShowtimes(gen, theater.getShowtimes());
-		writeScreens(gen, theater.getScreens());
+		writeOwner(theater.getOwner(), gen);
+		writeTimeslots(theater.getTimeslots(), gen);
+		writeMovies(theater.getMovies(), gen);
+		writeShowtimes(theater.getShowtimes(), gen);
+		writeScreens(theater.getScreens(), gen);
 		gen.writeStringField("createdAt", theater.getCreatedAt().toString());
 		gen.writeEndObject();
 	}
 
-	private void writeOwner(JsonGenerator gen, User owner) throws IOException {
+	private void writeOwner(User owner, JsonGenerator gen) throws IOException {
 		gen.writeFieldName("owner");
 		gen.writeStartObject();
 		if(owner != null) {
@@ -67,55 +67,72 @@ public class TheaterBackReferenceSerializer extends JsonSerializer<Object> {
 		gen.writeEndObject();
 	}
 
-	private void writeTimeslots(JsonGenerator gen, List<Timeslot> timeslots) throws IOException {
+	private void writeTimeslots(List<Timeslot> timeslots, JsonGenerator gen) throws IOException {
 		gen.writeFieldName("timeslots");
 		gen.writeStartArray();
 		if(timeslots != null) {
 			for (Timeslot timeslot : timeslots) {
-				gen.writeStartObject();
-				gen.writeNumberField("id", timeslot.getId());
-				gen.writeNumberField("startHH", timeslot.getStartHH());
-				gen.writeNumberField("startMM", timeslot.getStartMM());
-				gen.writeEndObject();
+				writeTimeslot(timeslot, gen);
 			}
 		}
 		gen.writeEndArray();
 	}
 
-	private void writeMovies(JsonGenerator gen, List<Movie> movies) throws IOException {
+	private void writeTimeslot(Timeslot timeslot, JsonGenerator gen) throws IOException {
+		gen.writeStartObject();
+		gen.writeNumberField("id", timeslot.getId());
+		gen.writeNumberField("startHH", timeslot.getStartHH());
+		gen.writeNumberField("startMM", timeslot.getStartMM());
+		gen.writeEndObject();
+	}
+
+	private void writeMovies(List<Movie> movies, JsonGenerator gen) throws IOException {
 		gen.writeFieldName("movies");
 		gen.writeStartArray();
 		if(movies != null) {
 			for (Movie movie : movies) {
-				gen.writeNumber(movie.getId());
+				writeMovie(movie, gen);
 			}
 		}
 		gen.writeEndArray();
 	}
 
-	private void writeShowtimes(JsonGenerator gen, List<Showtime> showtimes) throws IOException {
+	private void writeShowtimes(List<Showtime> showtimes, JsonGenerator gen) throws IOException {
 		gen.writeFieldName("showtimes");
 		gen.writeStartArray();
 		if(showtimes != null) {
 			for (Showtime showtime : showtimes) {
 				gen.writeStartObject();
 				gen.writeNumberField("id", showtime.getId());
-				gen.writeNumberField("startHH", showtime.getStartHH());
-				gen.writeNumberField("startMM", showtime.getStartMM());
-				gen.writeStringField("startTime", showtime.getStartTime().toString());
-				gen.writeFieldName("movie");
-				gen.writeStartObject();
-				if(showtime.getMovie() != null) {
-					gen.writeNumberField("id", showtime.getMovie().getId());
+				if(showtime.getTimeslot() != null) {
+					gen.writeFieldName("timeslot");
+					writeTimeslot(showtime.getTimeslot(), gen);
 				}
-				gen.writeEndObject();
+				gen.writeFieldName("movie");
+				writeMovie(showtime.getMovie(), gen);
 				gen.writeEndObject();
 			}
 		}
 		gen.writeEndArray();
 	}
 
-	private void writeScreens(JsonGenerator gen, List<Screen> screens) throws IOException {
+	private void writeMovie(Movie movie, JsonGenerator gen) throws IOException {
+		gen.writeStartObject();
+		if(movie != null) {
+			gen.writeNumberField("id", movie.getId());
+			gen.writeStringField("title", movie.getTitle());
+			gen.writeStringField("description", movie.getDescription());
+			gen.writeStringField("genre", movie.getGenre());
+			gen.writeNumberField("duration", movie.getDuration());
+			gen.writeStringField("language", movie.getLanguage());
+			gen.writeNumberField("rating", movie.getRating());
+			gen.writeStringField("posterUrl", movie.getPosterUrl());
+			gen.writeStringField("releaseDate", movie.getReleaseDate().toString());
+		}
+		gen.writeEndObject();
+	}
+
+	private void writeScreens(List<Screen> screens, JsonGenerator gen) throws IOException {
 		gen.writeFieldName("screens");
 		gen.writeStartArray();
 		if(screens != null) {

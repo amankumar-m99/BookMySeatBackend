@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -46,18 +45,15 @@ public class Theater extends BaseEntity {
 	@OneToMany(mappedBy = "theater")
 	private List<Timeslot> timeslots;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-//	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonSerialize(using = MovieBackReferenceSerializer.class)
+	@OneToMany(mappedBy = "theater")
+	private List<Screen> screens;
+
+	@ManyToMany()
+	@JsonSerialize(using = MovieBackReferenceSerializer.class)
 	private List<Movie> movies;
 
-	@OneToMany(mappedBy =  "theater")
+	@OneToMany(mappedBy = "theater")
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	private List<Showtime> showtimes;
-
-	@OneToMany(mappedBy = "theater")
-//	@JsonManagedReference
-	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-	private List<Screen> screens;
 
 }

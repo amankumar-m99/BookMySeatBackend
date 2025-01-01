@@ -49,12 +49,12 @@ public class MovieBackReferenceSerializer extends JsonSerializer<Object> {
 		gen.writeStringField("language", movie.getLanguage());
 		gen.writeNumberField("rating", movie.getRating());
 		gen.writeStringField("posterUrl", movie.getPosterUrl());
-		writeTheaters(gen, movie.getTheaters());
+		writeTheaters(movie.getTheaters(), gen);
 		gen.writeStringField("releaseDate", movie.getReleaseDate().toString());
 		gen.writeEndObject();
 	}
 
-	private void writeTheaters(JsonGenerator gen, List<Theater> theaters) throws IOException {
+	private void writeTheaters(List<Theater> theaters, JsonGenerator gen) throws IOException {
 		gen.writeFieldName("theaters");
 		gen.writeStartArray();
 		if(theaters != null) {
@@ -64,5 +64,4 @@ public class MovieBackReferenceSerializer extends JsonSerializer<Object> {
 		}
 		gen.writeEndArray();
 	}
-
 }

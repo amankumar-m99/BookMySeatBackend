@@ -1,7 +1,8 @@
 package m99.bookmyseat.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import m99.bookmyseat.serializer.TheaterBackReferenceSerializer;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,11 +19,10 @@ import m99.bookmyseat.serializer.TheaterBackReferenceSerializer;
 @Entity
 public class Screen extends BaseEntity {
 
+	@Column( nullable = false)
 	private String name;
 
 	@ManyToOne
-//	@JsonBackReference
-//	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-	@JsonSerialize(using = TheaterBackReferenceSerializer.class)
+	@JsonIgnore
 	private Theater theater;
 }

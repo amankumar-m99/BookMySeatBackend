@@ -27,6 +27,12 @@ import m99.bookmyseat.serializer.TheaterBackReferenceSerializer;
 public class Showtime extends BaseEntity {
 
 	@ManyToOne
+	private Timeslot timeslot;
+	
+	@Temporal(TemporalType.DATE)
+	private Date date;
+
+	@ManyToOne
 	@JsonSerialize(using = MovieBackReferenceSerializer.class)
 	private Movie movie;
 
@@ -34,18 +40,10 @@ public class Showtime extends BaseEntity {
 	private Screen screen;
 
 	@ManyToOne
-//	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	@JsonSerialize(using = TheaterBackReferenceSerializer.class)
 	private Theater theater;
 
 	@OneToMany(mappedBy = "showtime")
 	private List<Ticket> tickets;
-
-	private int startHH;
-
-	private int startMM;
-
-	@Temporal(TemporalType.DATE)
-	private Date startTime;
 
 }

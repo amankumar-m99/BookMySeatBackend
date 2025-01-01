@@ -5,14 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class ShowtimeFormModel {
+@AllArgsConstructor
+@NoArgsConstructor
+public class TimeslotRequestDTO {
 
-	private long movieId;
-	private long screenId;
+	private int startHH;
+
+	private int startMM;
+
 	private long theaterId;
-	private long timeslotId;
 }

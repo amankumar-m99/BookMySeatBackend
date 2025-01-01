@@ -13,14 +13,11 @@ public class TheaterMovieJoinRepository {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public List<Long> findCustomQuery(Long movieId) {
-		String jpql = "SELECT e.theaters_id FROM theater_movies e WHERE e.movies_id=" + movieId + ";";
-		List<Long> resultList = entityManager.createNativeQuery(jpql, Long.class).getResultList();
-		// Custom JPQL or native query logic
+	public List<?> findCustomQuery(Long movieId) {
+		String mySQL = "SELECT e.theaters_id FROM theater_movies e WHERE e.movies_id=" + movieId + ";";
+		List<?> resultList = entityManager.createNativeQuery(mySQL, Long.class).getResultList();
 //        String jpql = "SELECT e.theaters_id FROM theater_movies e WHERE e.movies_id= :customParam";
-//        List<Long> resultList = entityManager.createQuery(jpql, Long.class)
-//                            .setParameter("customParam", movieId)
-//                            .getResultList();
+//        List<Long> resultList = entityManager.createQuery(jpql, Long.class).setParameter("customParam", movieId).getResultList();
 		return resultList;
 	}
 }

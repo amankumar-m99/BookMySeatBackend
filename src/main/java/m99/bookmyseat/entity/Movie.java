@@ -40,13 +40,11 @@ public class Movie extends BaseEntity {
 
 	private String posterUrl;
 
-	@ManyToMany(mappedBy = "movies")
-//	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-//	@JsonBackReference
-    @JsonSerialize(using = TheaterBackReferenceSerializer.class)
-	private List<Theater> theaters;
-
 	@Temporal(TemporalType.DATE)
 	private Date releaseDate;
+
+	@ManyToMany(mappedBy = "movies")
+    @JsonSerialize(using = TheaterBackReferenceSerializer.class)
+	private List<Theater> theaters;
 
 }

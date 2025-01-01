@@ -1,5 +1,7 @@
 package m99.bookmyseat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ public class Timeslot extends BaseEntity {
 	private int startMM;
 
 	@ManyToOne
+	@JsonIgnore
 	private Theater theater;
 
 }

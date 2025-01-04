@@ -22,6 +22,10 @@ public class Screen extends BaseEntity {
 	@Column( nullable = false)
 	private String name;
 
+	private Integer maximumRows;
+
+	private Integer maximumCols;
+
 	@ManyToOne
 	@JsonIgnore
 	private Theater theater;

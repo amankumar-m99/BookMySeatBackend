@@ -1,7 +1,6 @@
 package m99.bookmyseat.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,9 @@ public class ShowtimeService {
 	@Autowired
 	private TheaterService theaterService;
 
+	@Autowired
+	private TicketService ticketService;
+
 	public List<Showtime> addShowtime(List<ShowtimeFormModel> models) {
 		List<Showtime> showtimes = new ArrayList<Showtime>();
 		for (ShowtimeFormModel model : models) {
@@ -38,9 +40,13 @@ public class ShowtimeService {
 			Theater theater = theaterService.getTheaterById(model.getTheaterId());
 			Timeslot timeslot = theater.getTimeslots().stream().filter(t -> t.getId() == model.getTimeslotId())
 					.findFirst().orElse(null);
-			Showtime showtime = Showtime.builder().movie(movie).screen(screen).theater(theater).timeslot(timeslot)
-					.date(new Date()).build();
-			showtimes.add(showtimeRepository.save(showtime));
+
+			Showtime showtime = Showtime.builder().timeslot(timeslot).date(model.getDate()).movie(movie).screen(screen)
+					.theater(theater).build();
+			showtime = showtimeRepository.save(showtime);
+			showtime.setTickets(ticketService.addTickets(screen.getMaximumRows(), screen.getMaximumCols(), showtime));
+			showtime = showtimeRepository.save(showtime);
+			showtimes.add(showtime);
 		}
 		return showtimes;
 	}

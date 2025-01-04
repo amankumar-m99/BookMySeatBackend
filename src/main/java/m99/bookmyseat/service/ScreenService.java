@@ -16,9 +16,6 @@ public class ScreenService {
 	@Autowired
 	private ScreenRepository screenRepository;
 
-	@Autowired
-	private SeatService seatService;
-
 	public Screen addScreen(Screen screen) {
 		return screenRepository.save(screen);
 	}
@@ -26,10 +23,8 @@ public class ScreenService {
 	public List<Screen> addScreenByCount(Integer numberOfScreens, Theater theater) {
 		List<Screen> screens = new ArrayList<>();
 		for (int i = 1; i <= numberOfScreens; i++) {
-			Screen screen = new Screen("Screen " + i, theater);
-			screen = addScreen(screen);
-			seatService.addSeatsToScreen(screen);
-			screens.add(screen);
+			Screen screen = new Screen("Screen " + i, 10, 10, theater);
+			screens.add(addScreen(screen));
 		}
 		return screens;
 	}

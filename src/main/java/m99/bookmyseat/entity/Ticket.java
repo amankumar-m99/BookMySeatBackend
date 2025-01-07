@@ -20,6 +20,8 @@ public class Ticket extends BaseEntity {
 	
 	private String seatNumber;
 
+	private double price;
+
 	private Boolean isBooked;
 
 	@ManyToOne
@@ -27,6 +29,7 @@ public class Ticket extends BaseEntity {
 	private Showtime showtime;
 
 	@ManyToOne
+	@JsonIgnore
 	private Booking booking;
 
 }

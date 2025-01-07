@@ -1,11 +1,16 @@
 package m99.bookmyseat.service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import m99.bookmyseat.dto.MovieBookingShowDTO;
+import m99.bookmyseat.dto.ShowtimeDTO;
 import m99.bookmyseat.entity.Movie;
 import m99.bookmyseat.entity.Screen;
 import m99.bookmyseat.entity.Showtime;
@@ -49,5 +54,33 @@ public class ShowtimeService {
 			showtimes.add(showtime);
 		}
 		return showtimes;
+	}
+
+	public Showtime getShowtimeById(Long showtimeId) {
+		return showtimeRepository.findById(showtimeId).orElse(null);
+	}
+
+	public List<MovieBookingShowDTO> findShowtimeByMovieId(Long movieId, Date date){
+		List<MovieBookingShowDTO> dtoList = new ArrayList<>();
+		List<Showtime> shows = showtimeRepository.findShowsByMovieId(movieId, date);
+		Map<Theater, List<Showtime>> theaters = new HashMap<>();
+		for(Showtime show: shows) {
+			Theater theater = show.getTheater();
+			if(!theaters.containsKey(theater)) {
+				theaters.put(theater, new ArrayList<>());
+			}
+			theaters.get(theater).add(show);
+		}
+		theaters.forEach((theater,showtimes) -> {
+			MovieBookingShowDTO dto = MovieBookingShowDTO.builder()
+					.theaterId(theater.getId())
+					.theaterName(theater.getName())
+					.theaterLocation(theater.getLocation())
+					.theaterPhoneNumber(theater.getPhoneNumber())
+					.showtimeDTOs(ShowtimeDTO.getObjects(showtimes))
+					.build();
+			dtoList.add(dto);
+		});
+		return dtoList;
 	}
 }

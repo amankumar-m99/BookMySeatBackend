@@ -23,7 +23,7 @@ public class ScreenService {
 	public List<Screen> addScreenByCount(Integer numberOfScreens, Theater theater) {
 		List<Screen> screens = new ArrayList<>();
 		for (int i = 1; i <= numberOfScreens; i++) {
-			Screen screen = new Screen("Screen " + i, 10, 10, theater);
+			Screen screen = new Screen("Screen " + i, 7, 10, theater);
 			screens.add(addScreen(screen));
 		}
 		return screens;

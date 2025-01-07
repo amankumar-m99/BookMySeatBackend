@@ -43,12 +43,12 @@ public class BookingController {
 
 	@GetMapping("/user/upcoming/{userId}")
 	public ResponseEntity<List<BookingResponseDTO>> getUpcomingBookingByUserId(@PathVariable Long userId){
-		return new ResponseEntity<>(bookingService.getUpcomingBookingByUserId(userId), HttpStatus.OK);
+		return new ResponseEntity<>(bookingService.getUpcomingBookingByUserId(userId, new Date()), HttpStatus.OK);
 	}
 
 	@GetMapping("/user/completed/{userId}")
 	public ResponseEntity<List<BookingResponseDTO>> getCompletedBookingByUserId(@PathVariable Long userId){
-		return new ResponseEntity<>(bookingService.getUpcomingBookingByUserId(userId), HttpStatus.OK);
+		return new ResponseEntity<>(bookingService.getCompletedBookingByUserId(userId, new Date()), HttpStatus.OK);
 	}
 	
 	@GetMapping("/date/{date}")

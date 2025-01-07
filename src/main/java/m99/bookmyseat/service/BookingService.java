@@ -58,9 +58,13 @@ public class BookingService {
 		return BookingResponseDTO.getObjects(bookings);
 	}
 
-	public List<BookingResponseDTO> getUpcomingBookingByUserId(Long userId){
-		List<Booking>  bookings = bookingRepository.findUpcomingByUserId(userId, new Date());
-		
+	public List<BookingResponseDTO> getUpcomingBookingByUserId(Long userId, Date date){
+		List<Booking>  bookings = bookingRepository.findUpcomingByUserId(userId, date);
+		return BookingResponseDTO.getObjects(bookings);
+	}
+
+	public List<BookingResponseDTO> getCompletedBookingByUserId(Long userId, Date date){
+		List<Booking>  bookings = bookingRepository.findCompletedByUserId(userId, date);
 		return BookingResponseDTO.getObjects(bookings);
 	}
 

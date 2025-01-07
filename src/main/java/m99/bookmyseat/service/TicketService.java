@@ -23,11 +23,19 @@ public class TicketService {
 			for(int col = 1; col <= cols; col++) {
 				char alpha = (char) ('A' + (row-1));
 				String seatNUmber = "" + alpha + "" + col;
-				tickets.add(new Ticket(seatNUmber, false, showtime, null));
+				tickets.add(new Ticket(seatNUmber, 100d, false, showtime, null));
 			}
 		}
 		tickets = ticketRepository.saveAll(tickets);
 		return tickets;
+	}
+
+	public Ticket getTicketById(Long ticketId) {
+		return ticketRepository.findById(ticketId).orElse(null);
+	}
+
+	public Ticket updateTicket(Ticket ticket) {
+		return ticketRepository.save(ticket);
 	}
 
 	public List<Ticket> getAllTicketsOfShowtime(Showtime showtime){

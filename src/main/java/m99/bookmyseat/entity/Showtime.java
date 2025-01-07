@@ -3,6 +3,7 @@ package m99.bookmyseat.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.Entity;
@@ -42,6 +43,10 @@ public class Showtime extends BaseEntity {
 	@ManyToOne
 	@JsonSerialize(using = TheaterBackReferenceSerializer.class)
 	private Theater theater;
+
+	@OneToMany(mappedBy = "showtime")
+	@JsonIgnore
+	private List<Booking> bookings;
 
 	@OneToMany(mappedBy = "showtime")
 	private List<Ticket> tickets;

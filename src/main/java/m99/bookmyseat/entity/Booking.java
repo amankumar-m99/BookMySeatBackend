@@ -3,8 +3,6 @@ package m99.bookmyseat.entity;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -27,8 +25,10 @@ public class Booking extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private Date bookingDate;
 
+	@ManyToOne
+	private Showtime showtime;
+
 	@OneToMany(mappedBy = "booking")
-	@JsonIgnore
 	private List<Ticket> tickets;
 
 	@ManyToOne

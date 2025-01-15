@@ -76,4 +76,16 @@ public class UserService {
 		List<User> users = userRepository.findAll();
 		return users;
 	}
+
+	public Long getUserCount() {
+		return userRepository.getUserCount();
+	}
+
+	public Long getTheaterAdminCount() {
+		return userRepository.getTheaterAdminCount();
+	}
+
+	public Long getSuperAdminCount() {
+		return userRepository.getSuperAdminCount();
+	}
 }

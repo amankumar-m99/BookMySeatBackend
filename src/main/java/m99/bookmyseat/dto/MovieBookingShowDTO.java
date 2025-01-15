@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import m99.bookmyseat.entity.Showtime;
 
 @Getter
 @Setter

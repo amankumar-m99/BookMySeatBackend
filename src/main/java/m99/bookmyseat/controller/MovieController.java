@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.PostConstruct;
+import m99.bookmyseat.dto.movie.MovieAddFormDTO;
 import m99.bookmyseat.entity.Movie;
 import m99.bookmyseat.seeder.MovieSeeder;
 import m99.bookmyseat.service.MovieService;
@@ -48,6 +49,16 @@ public class MovieController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/get/count")
+	public ResponseEntity<Long> getMoviesCount(){
+		try {
+			return new ResponseEntity<>(movieService.getMoviesCount(), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 	@GetMapping("/all")
 	public ResponseEntity<List<Movie>> getAllMovies(){
 		try {
@@ -69,9 +80,9 @@ public class MovieController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+	public ResponseEntity<Movie> addMovie(@RequestBody MovieAddFormDTO dto) {
 		try {
-			return new ResponseEntity<>(movieService.addMovie(movie), HttpStatus.CREATED);
+			return new ResponseEntity<>(movieService.addMovieByDTO(dto), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -79,9 +90,9 @@ public class MovieController {
 	}
 
 	@PutMapping
-	public ResponseEntity<Movie> updateMovie(@RequestBody Movie movie) {
+	public ResponseEntity<Movie> updateMovie(@RequestBody MovieAddFormDTO dto) {
 		try {
-			return new ResponseEntity<>(movieService.updateMovie(movie), HttpStatus.CREATED);
+			return new ResponseEntity<>(movieService.updateMovieByDTO(dto), HttpStatus.CREATED);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

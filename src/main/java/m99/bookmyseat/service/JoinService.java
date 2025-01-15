@@ -15,7 +15,7 @@ public class JoinService {
 
 	public List<Long> getTheaters(Long id){
 		
-		List<Long> findCustomQuery = (List<Long>) joinRepository.findCustomQuery(id);
+		List<Long> findCustomQuery = (List<Long>) joinRepository.findByCustomQuery(id);
 		return findCustomQuery;
 	}
 }

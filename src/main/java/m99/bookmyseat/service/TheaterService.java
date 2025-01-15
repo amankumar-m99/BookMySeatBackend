@@ -56,6 +56,10 @@ public class TheaterService {
 		return jsonFromTheater;
 	}
 
+	public Long getTheaterCount() {
+		return theaterRepository.count();
+	}
+
 
 	public Theater getTheaterById(Long id) {
 		Optional<Theater> findById = theaterRepository.findById(id);

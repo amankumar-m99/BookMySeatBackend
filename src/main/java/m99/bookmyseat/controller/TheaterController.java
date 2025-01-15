@@ -28,6 +28,16 @@ public class TheaterController {
 	@Autowired
 	private TheaterService theaterService;
 
+	@GetMapping("/get/count")
+	public ResponseEntity<Long> getTheaterCount(){
+		try {
+			return new ResponseEntity<>(theaterService.getTheaterCount(), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 	@GetMapping("/get/{id}")
 	public ResponseEntity<Theater> getTheaterById(@PathVariable Long id){
 		try {

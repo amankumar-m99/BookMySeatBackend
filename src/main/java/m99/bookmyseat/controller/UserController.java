@@ -62,6 +62,34 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/superadmin/count")
+	public ResponseEntity<Long> getSuperAdminCount() {
+		try {
+			return new ResponseEntity<>(userService.getSuperAdminCount(), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	@GetMapping("/theateradmin/count")
+	public ResponseEntity<Long> getTheaterAdminCount() {
+		try {
+			return new ResponseEntity<>(userService.getTheaterAdminCount(), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	@GetMapping("/user/count")
+	public ResponseEntity<Long> getUserCount() {
+		try {
+			return new ResponseEntity<>(userService.getUserCount(), HttpStatus.OK);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 	@GetMapping("/get/{name}")
 	public ResponseEntity<User> getUserByUserByUserName(@PathVariable("name") String name) {
 		try {
